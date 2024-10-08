@@ -898,8 +898,14 @@ if selected_industry:
                                 'Annualized correlation with Net Income From Continuing Operation',
                                 'Annualized correlation with Net Income',
                                 'Annualized correlation with Net Income Applicable to Common Share',
-                                'Annualized correlation with EPS (Earning Per Share)'
-                            ]:
+                                'Annualized correlation with EPS (Earning Per Share)',
+                                'Total Revenue/Income Coefficient', 'Total Operating Expense Coefficient', 
+                'Operating Income/Profit Coefficient', 'EBITDA Coefficient', 'EBIT Coefficient',
+                'Income/Profit Before Tax Coefficient', 'Net Income From Continuing Operation Coefficient',
+                'Net Income Coefficient', 'Net Income Applicable to Common Share Coefficient',
+                'EPS (Earning Per Share) Coefficient', 'Operating Margin Coefficient', 'EBITDA Margin Coefficient',
+                'Net Profit Margin Coefficient'
+            ]:
                                 if col in updated_corr_data.columns:
                                     updated_corr_data[f'Interpreted {col}'] = updated_corr_data[col].apply(interpret_correlation)
                                     updated_corr_data[f'Adjusted {col}'] = updated_corr_data.apply(
