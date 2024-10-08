@@ -915,13 +915,25 @@ if selected_industry:
                                 
                             all_adjusted_corr_data.append(updated_corr_data)
                         
-                    # Combine all adjusted correlation data
-                    if all_adjusted_corr_data:
-                        combined_corr_data = pd.concat(all_adjusted_corr_data, ignore_index=True)
+                    # Add Standard Errors, t-Statistics, P-Values, and Confidence Intervals
+            for metric in ['Total Revenue/Income', 'Total Operating Expense', 'Operating Income/Profit', 'EBITDA', 'EBIT', 'Income/Profit Before Tax', 'Net Income From Continuing Operation', 'Net Income', 'Net Income Applicable to Common Share', 'EPS (Earning Per Share)', 'Operating Margin', 'EBITDA Margin', 'Net Profit Margin']:
+                standard_error_col = f'{metric} Standard Error'
+                t_stat_col = f'{metric} t-Statistic'
+                p_value_col = f'{metric} P-Value'
+                confidence_interval_col = f'{metric} Confidence Interval'
 
-                        st.write('**Predicted Correlation Results:**')
-                        st.write(combined_corr_data[['Stock Name', 'Predicted Industry Value'] +
-                                                    [col for col in combined_corr_data.columns if 'Adjusted' in col]])
+                if all(col in updated_corr_data.columns for col in [standard_error_col, t_stat_col, p_value_col, confidence_interval_col]):
+                    updated_corr_data[f'{metric} Interpretation'] = updated_corr_data.apply(
+                        lambda row: f"Standard Error: {row[standard_error_col]}, t-Statistic: {row[t_stat_col]}, P-Value: {row[p_value_col]}, Confidence Interval: {row[confidence_interval_col]}", axis=1
+                    )
+
+            all_adjusted_corr_data.append(updated_corr_data)
+
+    # Combine and display all predicted correlation data
+    if all_adjusted_corr_data:
+        combined_corr_data = pd.concat(all_adjusted_corr_data, ignore_index=True)
+        st.write('**Predicted Correlation Results:**')
+        st.write(combined_corr_data)
 
                         # Interactive Comparison Chart
                         st.subheader('Interactive Comparison of Actual and Predicted Correlation Results')
