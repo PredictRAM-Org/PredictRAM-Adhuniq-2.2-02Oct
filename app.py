@@ -905,13 +905,11 @@ if selected_industry:
                 'Operating Margin Confidence Interval', 'EBITDA Margin Confidence Interval', 'Net Profit Margin Confidence Interval'
             ]:
                                 if col in updated_corr_data.columns:
-                                    updated_corr_data[f'Interpreted {col}'] = updated_corr_data[col].apply(interpret_correlation)
-                                    updated_corr_data[f'Adjusted {col}'] = updated_corr_data.apply(
-                                        lambda row: adjust_correlation(row[col], row['Predicted Industry Value'], industry_mean),
-                                        axis=1
-                                    )
-                                
-                            all_adjusted_corr_data.append(updated_corr_data)
+                    # Adjust coefficient by 5% and interpret
+                    updated_corr_data[f'Adjusted {col}'] = updated_corr_data[col] * 1.05
+                    updated_corr_data[f'Interpreted {col}'] = updated_corr_data[col].apply(lambda x: "Positive" if x > 0 else "Negative")
+
+            all_adjusted_corr_data.append(updated_corr_data)
                         
                     # Combine all adjusted correlation data
                     if all_adjusted_corr_data:
