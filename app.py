@@ -876,40 +876,44 @@ if selected_industry:
                             updated_corr_data['Predicted Industry Value'] = adjusted_industry_value
 
                             for col in [
-                'Average Operating Margin (Last 1 Year)', 'Average EBITDA Margin (Last 1 Year)', 'Average Net Profit Margin (Last 1 Year)',
-                'Correlation with Total Revenue/Income', 'Correlation with Total Operating Expense', 'Correlation with Operating Income/Profit',
-                'Correlation with EBITDA', 'Correlation with EBIT', 'Correlation with Income/Profit Before Tax',
-                'Correlation with Net Income From Continuing Operation', 'Correlation with Net Income', 'Correlation with Net Income Applicable to Common Share',
-                'Correlation with EPS (Earning Per Share)', 'Annualized Correlation with Total Revenue/Income', 'Annualized Correlation with Total Operating Expense',
-                'Annualized Correlation with Operating Income/Profit', 'Annualized Correlation with EBITDA', 'Annualized Correlation with EBIT',
-                'Annualized Correlation with Income/Profit Before Tax', 'Annualized Correlation with Net Income From Continuing Operation',
-                'Annualized Correlation with Net Income', 'Annualized Correlation with Net Income Applicable to Common Share', 'Annualized Correlation with EPS (Earning Per Share)',
-                'Total Revenue/Income Coefficient', 'Total Operating Expense Coefficient', 'Operating Income/Profit Coefficient', 'EBITDA Coefficient',
-                'EBIT Coefficient', 'Income/Profit Before Tax Coefficient', 'Net Income From Continuing Operation Coefficient', 'Net Income Coefficient',
-                'Net Income Applicable to Common Share Coefficient', 'EPS (Earning Per Share) Coefficient', 'Total Revenue/Income Standard Error', 
-                'Total Operating Expense Standard Error', 'Operating Income/Profit Standard Error', 'EBITDA Standard Error', 'EBIT Standard Error', 
-                'Income/Profit Before Tax Standard Error', 'Net Income From Continuing Operation Standard Error', 'Net Income Standard Error', 
-                'Net Income Applicable to Common Share Standard Error', 'EPS (Earning Per Share) Standard Error', 'Total Revenue/Income t-Statistic', 
-                'Total Operating Expense t-Statistic', 'Operating Income/Profit t-Statistic', 'EBITDA t-Statistic', 'EBIT t-Statistic', 
-                'Income/Profit Before Tax t-Statistic', 'Net Income From Continuing Operation t-Statistic', 'Net Income t-Statistic', 
-                'Net Income Applicable to Common Share t-Statistic', 'EPS (Earning Per Share) t-Statistic', 'Total Revenue/Income P-Value', 
-                'Total Operating Expense P-Value', 'Operating Income/Profit P-Value', 'EBITDA P-Value', 'EBIT P-Value', 
-                'Income/Profit Before Tax P-Value', 'Net Income From Continuing Operation P-Value', 'Net Income P-Value', 
-                'Net Income Applicable to Common Share P-Value', 'EPS (Earning Per Share) P-Value', 'Total Revenue/Income Confidence Interval', 
-                'Total Operating Expense Confidence Interval', 'Operating Income/Profit Confidence Interval', 'EBITDA Confidence Interval', 
-                'EBIT Confidence Interval', 'Income/Profit Before Tax Confidence Interval', 'Net Income From Continuing Operation Confidence Interval', 
-                'Net Income Confidence Interval', 'Net Income Applicable to Common Share Confidence Interval', 'EPS (Earning Per Share) Confidence Interval',
-                'Operating Margin Coefficient', 'EBITDA Margin Coefficient', 'Net Profit Margin Coefficient', 'Operating Margin Standard Error',
-                'EBITDA Margin Standard Error', 'Net Profit Margin Standard Error', 'Operating Margin t-Statistic', 'EBITDA Margin t-Statistic',
-                'Net Profit Margin t-Statistic', 'Operating Margin P-Value', 'EBITDA Margin P-Value', 'Net Profit Margin P-Value',
-                'Operating Margin Confidence Interval', 'EBITDA Margin Confidence Interval', 'Net Profit Margin Confidence Interval'
+                                'correlation with Total Revenue/Income',
+                                'correlation with Net Income',
+                                'correlation with Total Operating Expense',
+                                'correlation with Operating Income/Profit',
+                                'correlation with EBITDA',
+                                'correlation with EBIT',
+                                'correlation with Income/Profit Before Tax',
+                                'correlation with Net Income From Continuing Operation',
+                                'correlation with Net Income Applicable to Common Share',
+                                'correlation with EPS (Earning Per Share)',
+                                'correlation with Operating Margin',
+                                'correlation with EBITDA Margin',
+                                'correlation with Net Profit Margin',
+                                'Annualized correlation with Total Revenue/Income',
+                                'Annualized correlation with Total Operating Expense',
+                                'Annualized correlation with Operating Income/Profit',
+                                'Annualized correlation with EBITDA',
+                                'Annualized correlation with EBIT',
+                                'Annualized correlation with Income/Profit Before Tax',
+                                'Annualized correlation with Net Income From Continuing Operation',
+                                'Annualized correlation with Net Income',
+                                'Annualized correlation with Net Income Applicable to Common Share',
+                                'Annualized correlation with EPS (Earning Per Share)',
+                                'Total Revenue/Income Coefficient', 'Total Operating Expense Coefficient', 
+                'Operating Income/Profit Coefficient', 'EBITDA Coefficient', 'EBIT Coefficient',
+                'Income/Profit Before Tax Coefficient', 'Net Income From Continuing Operation Coefficient',
+                'Net Income Coefficient', 'Net Income Applicable to Common Share Coefficient',
+                'EPS (Earning Per Share) Coefficient', 'Operating Margin Coefficient', 'EBITDA Margin Coefficient',
+                'Net Profit Margin Coefficient'
             ]:
-                if col in updated_corr_data.columns:
-                    # Adjust coefficient by 5% and interpret
-                    updated_corr_data[f'Adjusted {col}'] = updated_corr_data[col] * 1.05
-                    updated_corr_data[f'Interpreted {col}'] = updated_corr_data[col].apply(lambda x: "Positive" if x > 0 else "Negative")
-
-            all_adjusted_corr_data.append(updated_corr_data)
+                                if col in updated_corr_data.columns:
+                                    updated_corr_data[f'Interpreted {col}'] = updated_corr_data[col].apply(interpret_correlation)
+                                    updated_corr_data[f'Adjusted {col}'] = updated_corr_data.apply(
+                                        lambda row: adjust_correlation(row[col], row['Predicted Industry Value'], industry_mean),
+                                        axis=1
+                                    )
+                                
+                            all_adjusted_corr_data.append(updated_corr_data)
                         
                     # Combine all adjusted correlation data
                     if all_adjusted_corr_data:
