@@ -904,7 +904,7 @@ if selected_industry:
                 'Net Profit Margin t-Statistic', 'Operating Margin P-Value', 'EBITDA Margin P-Value', 'Net Profit Margin P-Value',
                 'Operating Margin Confidence Interval', 'EBITDA Margin Confidence Interval', 'Net Profit Margin Confidence Interval'
             ]:
-                                if col in updated_corr_data.columns:
+                if col in updated_corr_data.columns:
                     # Adjust coefficient by 5% and interpret
                     updated_corr_data[f'Adjusted {col}'] = updated_corr_data[col] * 1.05
                     updated_corr_data[f'Interpreted {col}'] = updated_corr_data[col].apply(lambda x: "Positive" if x > 0 else "Negative")
