@@ -184,21 +184,6 @@ def interpret_correlation(value):
     else:
         return "Strong Negative"
         
-# Interpret industry impact
-def get_industry_impact(parameter_change):
-    impact_details = {
-        'Increase': {
-            'Risks Associated': 'Overproduction, spoilage',
-            'Impact of Risks on Industry': 'Increased costs and reduced profit margins',
-            'Mitigation Strategies': 'Adjust production based on demand forecasts'
-        },
-        'Decrease': {
-            'Risks Associated': 'Reduced supply, increased competition',
-            'Impact of Risks on Industry': 'Loss of market share and revenue',
-            'Mitigation Strategies': 'Diversify suppliers; strengthen marketing strategies'
-        }
-    }
-    return impact_details.get(parameter_change, {})
 
 # Function to adjust correlation values based on prediction
 def adjust_correlation(correlation_value, predicted_value, industry_mean):
