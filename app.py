@@ -719,7 +719,7 @@ def get_industry_impact(parameter_change):
     return impact_details.get(parameter_change, {})
 
 # New Feature: Input for CPI and Interest Rate
-expected_cpi = st.sidebar.number_input('Expected CPI (%):', min_value=0.0, value=5.0)
+expected_cpi = st.sidebar.number_input('Expected CPI (%):', min_value=0.0, value=4.0)
 expected_interest_rate = st.sidebar.number_input('Expected RBI Interest Rate (%):', min_value=0.0, value=6.0)
 
 # Scenario Selection
